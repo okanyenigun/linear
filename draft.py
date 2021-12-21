@@ -158,3 +158,31 @@ filename = 'animation.gif'
 video = io.open(filename, 'r+b').read()
 encoded = base64.b64encode(video)
 HTML(data='''<img src="data:image/gif;base64,{0}" type="gif" />'''.format(encoded.decode('ascii')))
+#%%
+
+
+
+
+#%% r2 adjusted r2
+
+actual_sum = 0 #variance of our linear model
+for i in range(n):
+    y_pred=  b0 + b1* X[i]
+    diff = y_pred - Y[i]
+    actual_sum += diff * diff
+    
+line2 = np.full(len(X),[Y.mean()])
+
+
+differences_line2 = line2 - Y
+totalsum = 0 #total variance of the target variable
+for i in differences_line2:
+    totalsum = totalsum + (i*i)
+
+r2 = (totalsum-actual_sum) / totalsum
+
+#Adjusted R2 = 1 – [(1-R2)*(n-1)/(n-k-1)]
+
+r2_adj = 1 - ( (1-r2) * (len(Y)-1) / (len(Y) -X.shape[1] -1))
+
+#%%
